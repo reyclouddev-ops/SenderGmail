@@ -1,0 +1,8 @@
+{
+  "name": "legion-email-sender",
+  "version": "1.0.0",
+  "description": "PT Legion Teknologi Email Sender",
+  "dependencies": {
+    "nodemailer": "^7.0.5"
+  }
+}
