@@ -15,31 +15,60 @@ module.exports = async (req, res) => {
 
         const {
             to,
-            subject,
+            template,
             name,
             role,
             email,
-            whatsapp
+            whatsapp,
+            note
         } = req.body;
+
+        const selectedTemplate = template || "register";
 
         const templatePath = path.join(
             process.cwd(),
             "templates",
-            "register.html"
+            `${selectedTemplate}.html`
         );
 
         let html = fs.readFileSync(templatePath, "utf8");
 
         html = html
-            .replace(/{{NAME}}/g, name)
-            .replace(/{{ROLE}}/g, role)
-            .replace(/{{EMAIL}}/g, email)
-            .replace(/{{WHATSAPP}}/g, whatsapp)
+            .replace(/{{NAME}}/g, name || "-")
+            .replace(/{{ROLE}}/g, role || "-")
+            .replace(/{{EMAIL}}/g, email || "-")
+            .replace(/{{WHATSAPP}}/g, whatsapp || "-")
+            .replace(/{{NOTE}}/g, note || "-")
             .replace(/{{MEMBER_ID}}/g, "LEGION-" + Date.now())
             .replace(
                 /{{DATE}}/g,
                 new Date().toLocaleDateString("id-ID")
             );
+
+        let subject = "";
+
+        switch (selectedTemplate) {
+
+            case "register":
+                subject = "🎉 Welcome to PT Legion Teknologi";
+                break;
+
+            case "welcome":
+                subject = "👋 Welcome to PT Legion Teknologi";
+                break;
+
+            case "reset":
+                subject = "🔐 Reset Password";
+                break;
+
+            case "invoice":
+                subject = "🧾 PT Legion Teknologi Invoice";
+                break;
+
+            default:
+                subject = "PT Legion Teknologi";
+
+        }
 
         const transporter = nodemailer.createTransport({
 
