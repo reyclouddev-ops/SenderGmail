@@ -2,10 +2,6 @@
   "name": "legion-email-sender",
   "version": "1.0.0",
   "description": "PT Legion Teknologi Email Sender",
-  "main": "api/send.js",
-  "scripts": {
-    "start": "node api/send.js"
-  },
   "dependencies": {
     "nodemailer": "^7.0.5"
   }
