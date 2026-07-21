@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PT Legion Teknologi - Email Sender</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0f172a;color:#fff;padding:30px;display:flex;justify-content:center}
+.container{width:100%;max-width:720px;background:#1e293b;border-radius:20px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.logo{text-align:center;margin-bottom:20px}
+.logo h1{color:#38bdf8}
+.info{background:#0f172a;padding:15px;border-radius:12px;margin-bottom:20px}
+label{display:block;margin:12px 0 6px;font-weight:bold}
+input,select,textarea{width:100%;padding:12px;border:none;border-radius:10px;background:#334155;color:#fff}
+textarea{height:100px;resize:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:flex;gap:10px;margin-top:20px}
+button{flex:1;padding:14px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+.preview{background:#475569;color:#fff}
+.send{background:#2563eb;color:#fff}
+.footer{text-align:center;margin-top:20px;color:#94a3b8}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">
+<h1>📧 PT Legion Teknologi</h1>
+<p>Email Sender Dashboard</p>
+</div>
+
+<div class="info">
+<p><b>Sender:</b> PT Legion Teknologi</p>
+<p><b>Email:</b> reyclouddev@gmail.com</p>
+<p><b>Status:</b> 🟢 Ready</p>
+</div>
+
+<label>To</label>
+<input id="to" type="email" placeholder="example@gmail.com">
+
+<label>Template</label>
+<select id="template">
+<option value="register">Register</option>
+<option value="welcome">Welcome</option>
+<option value="reset">Reset Password</option>
+<option value="invoice">Invoice</option>
+</select>
+
+<div class="row">
+<div>
+<label>Nama Lengkap</label>
+<input id="name" placeholder="Acil Suki">
+</div>
+<div>
+<label>Role / Jabatan</label>
+<input id="role" placeholder="Developer">
+</div>
+</div>
+
+<div class="row">
+<div>
+<label>Email</label>
+<input id="email" type="email" placeholder="x@example.com">
+</div>
+<div>
+<label>WhatsApp</label>
+<input id="whatsapp" placeholder="+62812xxxx">
+</div>
+</div>
+
+<label>Catatan</label>
+<textarea id="note" placeholder="Opsional"></textarea>
+
+<div class="btn">
+<button class="preview" onclick="previewEmail()">👁 Preview</button>
+<button class="send" onclick="sendEmail()">🚀 Send Email</button>
+</div>
+
+<div class="footer">
+<p>© 2026 PT Legion Teknologi</p>
+</div>
+</div>
+
+<div id="previewModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);justify-content:center;align-items:center">
+<div style="width:90%;max-width:700px;height:85%;background:#fff;border-radius:10px;overflow:hidden">
+<div style="background:#0f172a;color:#fff;padding:12px;display:flex;justify-content:space-between">
+<b>Preview Email</b>
+<button onclick="closePreview()">Close</button>
+</div>
+<iframe id="previewFrame" style="width:100%;height:calc(100% - 48px);border:none"></iframe>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
