@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PT Legion Teknologi - Email Sender</title>
 
 <style>
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,Helvetica,sans-serif;
+
 }
 
 body{
 
 background:#0f172a;
 color:#fff;
+padding:30px;
 display:flex;
 justify-content:center;
-padding:30px;
 
 }
 
 .container{
 
 width:100%;
-max-width:700px;
+max-width:720px;
 background:#1e293b;
 border-radius:20px;
 padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
+box-shadow:0 10px 35px rgba(0,0,0,.35);
 
 }
 
@@ -44,7 +48,7 @@ margin-bottom:25px;
 
 .logo h1{
 
-font-size:28px;
+font-size:30px;
 color:#38bdf8;
 
 }
@@ -67,10 +71,13 @@ label{
 display:block;
 margin-bottom:8px;
 font-weight:bold;
+font-size:15px;
 
 }
 
-input,select{
+input,
+select,
+textarea{
 
 width:100%;
 padding:14px;
@@ -79,29 +86,56 @@ outline:none;
 border-radius:10px;
 margin-bottom:18px;
 background:#334155;
-color:white;
+color:#fff;
+font-size:15px;
 
 }
 
 textarea{
 
-width:100%;
 height:120px;
-padding:14px;
-border:none;
-outline:none;
-border-radius:10px;
-background:#334155;
-color:white;
 resize:none;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border:2px solid #38bdf8;
+
+}
+
+.info{
+
+background:#0f172a;
+padding:15px;
+border-radius:12px;
+margin-bottom:20px;
+border:1px solid #334155;
+
+}
+
+.info p{
+
+margin:6px 0;
+color:#cbd5e1;
+
+}
+
+.row{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 
 }
 
 .btn{
 
-margin-top:18px;
 display:flex;
-gap:10px;
+gap:15px;
+margin-top:15px;
 
 }
 
@@ -110,10 +144,11 @@ button{
 flex:1;
 padding:15px;
 border:none;
-border-radius:10px;
+border-radius:12px;
+cursor:pointer;
 font-size:16px;
 font-weight:bold;
-cursor:pointer;
+transition:.3s;
 
 }
 
@@ -124,6 +159,12 @@ color:white;
 
 }
 
+.preview:hover{
+
+background:#64748b;
+
+}
+
 .send{
 
 background:#2563eb;
@@ -131,18 +172,35 @@ color:white;
 
 }
 
+.send:hover{
+
+background:#1d4ed8;
+
+}
+
 .footer{
 
 margin-top:25px;
 text-align:center;
-color:#94a3b8;
 font-size:14px;
+color:#94a3b8;
+
+}
+
+@media(max-width:700px){
+
+.row{
+
+grid-template-columns:1fr;
+
+}
 
 }
 
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
@@ -155,78 +213,120 @@ font-size:14px;
 
 </div>
 
+<div class="info">
+
+<p><b>Sender :</b> PT Legion Teknologi</p>
+
+<p><b>Email :</b> reyclouddev@gmail.com</p>
+
+<p><b>Status :</b> 🟢 Ready</p>
+
+</div>
+
 <div class="card">
-
-<label>Sender</label>
-
-<input
-type="text"
-value="PT Legion Teknologi <reyclouddev@gmail.com>"
-readonly>
 
 <label>To</label>
 
 <input
+id="to"
 type="email"
 placeholder="example@gmail.com">
 
 <label>Subject</label>
 
 <input
+id="subject"
 type="text"
 placeholder="Welcome to PT Legion Teknologi">
 
 <label>Template</label>
 
-<select>
+<select id="template">
 
-<option>Register</option>
+<option value="register">Register</option>
 
-<option>Welcome</option>
+<option value="welcome">Welcome</option>
 
-<option>Reset Password</option>
+<option value="reset">Reset Password</option>
 
-<option>Invoice</option>
+<option value="invoice">Invoice</option>
 
 </select>
 
-<label>Nama</label>
+<div class="row">
+
+<div>
+
+<label>Nama Lengkap</label>
 
 <input
+id="name"
 type="text"
 placeholder="Acil Suki">
 
-<label>Role</label>
+</div>
+
+<div>
+
+<label>Role / Jabatan</label>
 
 <input
+id="role"
 type="text"
 placeholder="Developer">
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
 
 <label>Email</label>
 
 <input
+id="email"
 type="email"
 placeholder="xenoprm45@gmail.com">
 
-<label>WhatsApp</label>
+</div>
+
+<div>
+
+<label>Nomor WhatsApp</label>
 
 <input
+id="whatsapp"
 type="text"
 placeholder="+62812xxxxxxxx">
 
-<label>Catatan (Opsional)</label>
+</div>
+
+</div>
+
+<label>Catatan</label>
 
 <textarea
+id="note"
 placeholder="Tambahkan pesan jika diperlukan..."></textarea>
-
 <div class="btn">
 
-<button class="preview">
+<button
+type="button"
+class="preview">
+
 👁 Preview
+
 </button>
 
-<button class="send" onclick="sendEmail()">
+<button
+type="button"
+class="send"
+onclick="sendEmail()">
+
 🚀 Send Email
+
 </button>
 
 </div>
@@ -235,11 +335,27 @@ placeholder="Tambahkan pesan jika diperlukan..."></textarea>
 
 <div class="footer">
 
-PT Legion Teknologi © 2026
+<hr style="border:none;height:1px;background:#334155;margin:25px 0;">
+
+<p><b>PT Legion Teknologi</b></p>
+
+<p>Built in Indonesia, Trusted Worldwide.</p>
+
+<br>
+
+<p>📧 Sender : reyclouddev@gmail.com</p>
+
+<p>🟢 Status : Ready</p>
+
+<p style="margin-top:10px;">
+© 2026 PT Legion Teknologi
+</p>
 
 </div>
 
 </div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
