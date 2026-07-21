@@ -6,26 +6,42 @@ async function sendEmail() {
 
         subject: document.querySelector("#subject").value,
 
-        html: "<h1>Hello from PT Legion Teknologi</h1>"
+        name: document.querySelector("#name").value,
+
+        role: document.querySelector("#role").value,
+
+        email: document.querySelector("#email").value,
+
+        whatsapp: document.querySelector("#whatsapp").value
 
     };
 
-    const res = await fetch("/api/send", {
+    try {
 
-        method: "POST",
+        const res = await fetch("/api/send", {
 
-        headers: {
+            method: "POST",
 
-            "Content-Type": "application/json"
+            headers: {
 
-        },
+                "Content-Type": "application/json"
 
-        body: JSON.stringify(data)
+            },
 
-    });
+            body: JSON.stringify(data)
 
-    const json = await res.json();
+        });
 
-    alert(json.message);
+        const json = await res.json();
+
+        alert(json.message);
+
+    } catch (err) {
+
+        alert("❌ Gagal menghubungi server.");
+
+        console.error(err);
+
+    }
 
 }
