@@ -4,7 +4,7 @@ async function sendEmail() {
 
         to: document.querySelector("#to").value,
 
-        subject: document.querySelector("#subject").value,
+        template: document.querySelector("#template").value,
 
         name: document.querySelector("#name").value,
 
@@ -12,35 +12,63 @@ async function sendEmail() {
 
         email: document.querySelector("#email").value,
 
-        whatsapp: document.querySelector("#whatsapp").value
+        whatsapp: document.querySelector("#whatsapp").value,
+
+        note: document.querySelector("#note").value
 
     };
 
-    function previewEmail(){
+    try {
 
-const name=document.querySelector("#name").value||"Nama Lengkap";
+        const res = await fetch("/api/send", {
 
-const role=document.querySelector("#role").value||"Developer";
+            method: "POST",
 
-const email=document.querySelector("#email").value||"example@gmail.com";
+            headers: {
 
-const wa=document.querySelector("#whatsapp").value||"+62812xxxxxxxx";
+                "Content-Type": "application/json"
 
-const html=`
+            },
+
+            body: JSON.stringify(data)
+
+        });
+
+        const json = await res.json();
+
+        alert(json.message);
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("❌ Gagal menghubungi server.");
+
+    }
+
+}
+
+function previewEmail(){
+
+    const name=document.querySelector("#name").value||"Nama Lengkap";
+
+    const role=document.querySelector("#role").value||"Developer";
+
+    const email=document.querySelector("#email").value||"example@gmail.com";
+
+    const wa=document.querySelector("#whatsapp").value||"+62812xxxxxxxx";
+
+    const html=`
 
 <!DOCTYPE html>
-
 <html>
-
 <body style="font-family:Arial;background:#f1f5f9;padding:40px;">
 
 <div style="max-width:650px;margin:auto;background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.15);">
 
 <div style="background:#0f172a;padding:30px;text-align:center;color:white;">
 
-<h1 style="color:#38bdf8;">
-PT Legion Teknologi
-</h1>
+<h1 style="color:#38bdf8;">PT Legion Teknologi</h1>
 
 <p>Built in Indonesia, Trusted Worldwide.</p>
 
@@ -52,7 +80,7 @@ PT Legion Teknologi
 
 <p>Hello <b>${name}</b>,</p>
 
-<p>Welcome to PT Legion Teknologi.</p>
+<p>Welcome to <b>PT Legion Teknologi</b>.</p>
 
 <table width="100%" cellpadding="10">
 
@@ -95,49 +123,18 @@ PT Legion Teknologi
 </div>
 
 </body>
-
 </html>
 
 `;
 
-document.querySelector("#previewModal").style.display="flex";
+    document.querySelector("#previewModal").style.display="flex";
 
-document.querySelector("#previewFrame").srcdoc=html;
+    document.querySelector("#previewFrame").srcdoc=html;
 
 }
 
 function closePreview(){
 
-document.querySelector("#previewModal").style.display="none";
-
-}
-
-    try {
-
-        const res = await fetch("/api/send", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json"
-
-            },
-
-            body: JSON.stringify(data)
-
-        });
-
-        const json = await res.json();
-
-        alert(json.message);
-
-    } catch (err) {
-
-        alert("❌ Gagal menghubungi server.");
-
-        console.error(err);
-
-    }
+    document.querySelector("#previewModal").style.display="none";
 
 }
