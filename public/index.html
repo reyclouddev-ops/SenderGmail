@@ -212,42 +212,32 @@ Built in Indonesia, Trusted Worldwide.
 
 </div>
 
-<!-- Preview -->
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
 
-<div
-id="previewModal"
-class="modal">
+        <div class="modal-content">
 
-<div class="modal-content">
+            <div class="modal-header">
 
-<div class="modal-header">
+                <h3>📧 Preview Email</h3>
 
-<h3>
+                <button onclick="closePreview()">
+                    ✕
+                </button>
 
-Preview Email
+            </div>
 
-</h3>
+            <iframe id="previewFrame"></iframe>
 
-<button
-onclick="closePreview()">
+        </div>
 
-✕
+    </div>
 
-</button>
+    <!-- Toast Notification -->
+    <div id="toast"></div>
 
-</div>
-
-<iframe
-id="previewFrame">
-
-</iframe>
-
-</div>
-
-</div>
-
-<script src="script.js"></script>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 
 </body>
-
 </html>
