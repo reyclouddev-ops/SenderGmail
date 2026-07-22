@@ -1,22 +1,121 @@
+/*
+=========================================
+PT Legion Teknologi
+Email Sender Dashboard
+Version : 3.0
+Author  : ReyCloudDev
+=========================================
+*/
+
+// ===============================
+// Helper
+// ===============================
+
+function getValue(id, fallback = "") {
+
+    const el = document.getElementById(id);
+
+    if (!el) return fallback;
+
+    return el.value.trim() || fallback;
+
+}
+
+// ===============================
+// Toast Notification
+// ===============================
+
+function showToast(message, type = "success") {
+
+    const toast = document.getElementById("toast");
+
+    if (!toast) return;
+
+    toast.className = "";
+
+    if (type === "error") {
+
+        toast.classList.add("error");
+
+    }
+
+    if (type === "warning") {
+
+        toast.classList.add("warning");
+
+    }
+
+    toast.innerHTML = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+// ===============================
+// Button Loading
+// ===============================
+
+function setLoading(status) {
+
+    const btn = document.querySelector(".send");
+
+    if (!btn) return;
+
+    if (status) {
+
+        btn.disabled = true;
+
+        btn.innerHTML = "⏳ Mengirim...";
+
+    } else {
+
+        btn.disabled = false;
+
+        btn.innerHTML = "🚀 Send Email";
+
+    }
+
+}
+
+// ===============================
+// Send Email
+// ===============================
+
 async function sendEmail() {
 
     const data = {
 
-        to: document.querySelector("#to").value,
+        to: getValue("to"),
 
-        template: document.querySelector("#template").value,
+        template: getValue("template", "register"),
 
-        name: document.querySelector("#name").value,
+        name: getValue("name"),
 
-        role: document.querySelector("#role").value,
+        role: getValue("role"),
 
-        email: document.querySelector("#email").value,
+        email: getValue("email"),
 
-        whatsapp: document.querySelector("#whatsapp").value,
+        whatsapp: getValue("whatsapp"),
 
-        note: document.querySelector("#note").value
+        note: getValue("note")
 
     };
+
+    if (!data.to) {
+
+        showToast("⚠️ Email penerima wajib diisi.", "warning");
+
+        return;
+
+    }
+
+    setLoading(true);
 
     try {
 
@@ -36,345 +135,26 @@ async function sendEmail() {
 
         const json = await res.json();
 
-        alert(json.message);
+        if (json.success) {
+
+            showToast("✅ " + json.message);
+
+        } else {
+
+            showToast("❌ " + json.message, "error");
+
+        }
 
     } catch (err) {
 
         console.error(err);
 
-        alert("❌ Gagal menghubungi server.");
+        showToast("❌ Gagal menghubungi server.", "error");
+
+    } finally {
+
+        setLoading(false);
 
     }
-
-}
-
-function previewEmail(){
-
-    const template = document.querySelector("#template").value;
-
-    const name = document.querySelector("#name").value || "Nama Lengkap";
-
-    const role = document.querySelector("#role").value || "Developer";
-
-    const email = document.querySelector("#email").value || "example@gmail.com";
-
-    const wa = document.querySelector("#whatsapp").value || "+62812xxxxxxxx";
-
-    const note = document.querySelector("#note").value || "-";
-
-    let title = "";
-    let message = "";
-
-    switch(template){
-
-        case "register":
-
-            title = "🎉 Registration Successful";
-
-            message = "Selamat! Akun Anda berhasil didaftarkan di PT Legion Teknologi.";
-
-        break;
-
-        case "welcome":
-
-            title = "👋 Welcome";
-
-            message = "Selamat datang di PT Legion Teknologi. Kami senang Anda bergabung bersama kami.";
-
-        break;
-
-        case "reset":
-
-            title = "🔐 Reset Password";
-
-            message = "Permintaan reset password telah diterima. Silakan ikuti petunjuk yang diberikan.";
-
-        break;
-
-        case "invoice":
-
-const invoiceId = "INV-" + Date.now();
-
-const amount = "Rp150.000";
-
-const product = "VPS Ryzen 4GB";
-
-const method = "QRIS";
-
-const date = new Date().toLocaleDateString("id-ID");
-
-const invoiceHtml = `
-
-<!DOCTYPE html>
-
-<html>
-
-<body style="margin:0;background:#f5f7fb;padding:40px;font-family:Arial">
-
-<div style="max-width:650px;margin:auto;background:#fff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;">
-
-<div style="background:#2563eb;padding:35px;text-align:center;color:#fff;">
-
-<h1 style="margin:0;">
-PT Legion Teknologi
-</h1>
-
-<p style="margin-top:8px;">
-Official Notification System
-</p>
-
-</div>
-
-<div style="padding:35px;">
-
-<h2 style="margin-top:0;">
-💳 Invoice Pembayaran
-</h2>
-
-<p>
-Halo <b>${name}</b>,
-</p>
-
-<p>
-Terima kasih. Pembayaran Anda telah berhasil kami terima.
-</p>
-
-<table width="100%" cellpadding="10">
-
-<tr>
-
-<td><b>Invoice</b></td>
-
-<td>${invoiceId}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Produk</b></td>
-
-<td>${product}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Total</b></td>
-
-<td><b>${amount}</b></td>
-
-</tr>
-
-<tr>
-
-<td><b>Metode</b></td>
-
-<td>${method}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Tanggal</b></td>
-
-<td>${date}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Email</b></td>
-
-<td>${email}</td>
-
-</tr>
-
-</table>
-
-<div style="margin-top:30px;padding:20px;background:#eff6ff;border-radius:12px;text-align:center;">
-
-<div style="display:inline-block;background:#22c55e;color:white;padding:12px 35px;border-radius:30px;font-weight:bold;">
-
-✅ LUNAS
-
-</div>
-
-</div>
-
-<p style="margin-top:30px;color:#64748b;">
-
-Invoice ini dibuat otomatis oleh sistem PT Legion Teknologi.
-
-</p>
-
-</div>
-
-</div>
-
-</body>
-
-</html>
-
-`;
-
-document.querySelector("#previewModal").style.display="flex";
-
-document.querySelector("#previewFrame").srcdoc=invoiceHtml;
-
-return;
-
-        default:
-
-            title = "PT Legion Teknologi";
-
-            message = "";
-
-    }
-
-    const html = `
-
-<!DOCTYPE html>
-
-<html>
-
-<body style="margin:0;padding:40px;background:#f5f7fb;font-family:Arial,Helvetica,sans-serif;">
-
-<div style="max-width:650px;margin:auto;background:#fff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;">
-
-<div style="background:#2563eb;padding:35px;text-align:center;">
-
-<h1 style="margin:0;color:white;">
-
-PT Legion Teknologi
-
-</h1>
-
-<p style="margin-top:8px;color:#dbeafe;">
-
-Official Notification System
-
-</p>
-
-</div>
-
-<div style="padding:35px;">
-
-<h2 style="margin-top:0;">
-
-${title}
-
-</h2>
-
-<p>
-
-Halo <b>${name}</b>,
-
-</p>
-
-<p>
-
-${message}
-
-</p>
-
-<table width="100%" cellpadding="10" style="margin-top:25px;border-collapse:collapse;">
-
-<tr>
-
-<td><b>Nama</b></td>
-
-<td>${name}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Role</b></td>
-
-<td>${role}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Email</b></td>
-
-<td>${email}</td>
-
-</tr>
-
-<tr>
-
-<td><b>WhatsApp</b></td>
-
-<td>${wa}</td>
-
-</tr>
-
-<tr>
-
-<td><b>Catatan</b></td>
-
-<td>${note}</td>
-
-</tr>
-
-</table>
-
-${
-template === "invoice"
-?
-
-`
-
-<div style="margin-top:30px;padding:20px;background:#eff6ff;border-radius:12px;">
-
-<h3 style="margin-top:0;color:#2563eb;">
-
-Status Pembayaran
-
-</h3>
-
-<div style="display:inline-block;background:#dcfce7;color:#15803d;padding:10px 25px;border-radius:30px;font-weight:bold;">
-
-LUNAS
-
-</div>
-
-</div>
-
-`
-
-:
-
-""
-
-}
-
-<p style="margin-top:35px;color:#64748b;font-size:14px;">
-
-Email ini dikirim otomatis oleh sistem PT Legion Teknologi.
-
-</p>
-
-</div>
-
-</div>
-
-</body>
-
-</html>
-
-`;
-
-    document.querySelector("#previewModal").style.display = "flex";
-
-    document.querySelector("#previewFrame").srcdoc = html;
-
-}
-
-function closePreview(){
-
-    document.querySelector("#previewModal").style.display = "none";
 
 }
